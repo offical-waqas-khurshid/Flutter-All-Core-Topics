@@ -6,8 +6,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
-
 //////////////////////////// Note ////////////////////
 
 /////////// This class is show off for custom check box color, pressed, hovers etc function changes apply.
