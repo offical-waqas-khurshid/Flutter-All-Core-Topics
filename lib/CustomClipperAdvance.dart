@@ -14,6 +14,23 @@ class HabibiClipper extends CustomClipper<Path> {
     path.lineTo(width, height);
     path.close();
 
+
+    double height = size.height;
+    double width = size.width;
+    Path p = Path();
+
+    p.lineTo(0, height*.4);
+
+    //p.lineTo(width, height*.5);
+
+    p.quadraticBezierTo(width*.3, height*.75, width*.50, height*.5);
+
+    p.quadraticBezierTo(width*.75 , height*.25, width, height*.75);
+     p.lineTo(width, 0);
+
+    p.close();
+    return p;
+
     Left Side Bezier Curve
 
     path.quadraticBezierTo(width * 0.20, height * 0.5, 0, height);
