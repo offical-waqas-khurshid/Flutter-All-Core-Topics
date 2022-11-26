@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'CheckBox.dart';
+import '../DialogCheckBox/CheckBox.dart';
 
 void main() {
   runApp(const MyApp());
