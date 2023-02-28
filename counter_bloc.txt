@@ -1,0 +1,111 @@
+MAIN CLASS
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/counter_bloc.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: BlocProvider(
+        create: (context) => CounterBloc(),
+        child:  MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+   MyHomePage({super.key, required this.title});
+
+  final String title;
+  late CounterBloc counterBloc;
+
+
+  void _incrementCounter() {
+    counterBloc.add(IncrementCounterEvent());
+  }
+
+  void _decrementCounter() {
+    counterBloc.add(DecrementCounterEvent());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    counterBloc = context.read<CounterBloc>();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: Center(
+            child: BlocBuilder<CounterBloc, int>(
+          bloc: counterBloc,
+          builder: (context, state) => Text(state.toString()),
+        )),
+        floatingActionButton: ButtonBar(
+          children: [
+            FloatingActionButton(
+              onPressed: _incrementCounter,
+              tooltip: 'Increment',
+              child: const Icon(Icons.add),
+            ),
+            FloatingActionButton(
+              onPressed: _decrementCounter,
+              tooltip: 'Decrement',
+              child: const Icon(Icons.remove),
+            ),
+          ],
+        ));
+  }
+}
+
+
+COUNTER BLOC
+import 'package:bloc/bloc.dart';
+import 'package:flutter/rendering.dart';
+import 'package:meta/meta.dart';
+
+part 'counter_event.dart';
+part 'counter_state.dart';
+
+class CounterBloc extends Bloc<CounterEvent, int> {
+  CounterBloc() : super(0) {
+    on<IncrementCounterEvent>((event, emit) {
+      emit(state + 1);
+    });
+    on<DecrementCounterEvent>((event, emit) => emit(state - 1));
+  }
+}
+
+
+COUNTER EVENTS
+part of 'counter_bloc.dart';
+
+@immutable
+abstract class CounterEvent {}
+@immutable
+class IncrementCounterEvent extends CounterEvent {}
+
+@immutable
+class DecrementCounterEvent extends CounterEvent {}
+
+COUTNER EVENTS
+part of 'counter_bloc.dart';
+
+@immutable
+abstract class CounterState {}
+
+class CounterInitial extends CounterState {}
+
